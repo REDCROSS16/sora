@@ -1,0 +1,7 @@
+/.idea
+/mysql/
+/logs
+/storage
+/web/frontend/node_modules
+/web/vendor
+/web/var

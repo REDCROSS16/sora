@@ -1,0 +1,11 @@
+FROM node:latest
+
+WORKDIR /var/www/html
+
+COPY package.json ./
+
+RUN touch /usr/local/bin/nodejs.sh
+COPY /docker/nodejs/nodejs.sh /usr/local/bin/nodejs.sh
+RUN chmod 777 /usr/local/bin/nodejs.sh
+
+CMD ["sh", "/usr/local/bin/nodejs.sh"]
