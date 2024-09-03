@@ -1,4 +1,3 @@
-#load_module /etc/nginx/modules/ngx_http_image_filter_module.so;
 
 gzip on;
 gzip_comp_level 2;
@@ -26,10 +25,66 @@ fastcgi_read_timeout 100000s;
 
 server {
     listen 80;
-    server_name file.dev.ledums.com;
+    #server_name dev.sora.com;
+
+    root /home/www/public/;
+
+    index index.php index.html index.htm;
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass sora-fpm:9000;
+        fastcgi_index index.php;
+        include fastcgi.conf;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
 
     location / {
-        root /home/ledums/storage;
+	   try_files $uri /index.php?$query_string;
+	   gzip_static on;
+    }
+
+    location ~* \.(htm|html)$ {
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location ~* \.(gif|jpg|jpeg|png|bmp|wmv|avi|mpg|mpeg|mp4|js|css|deb|bz2|swf|pdf|ico|txt)$ {
+        access_log off;
+        expires max;
+    }
+
+    location = /favicon.ico {
+    	log_not_found off;
+    	access_log off;
+    }
+
+    location = /robots.txt {
+    	allow all;
+    	log_not_found off;
+    	access_log off;
+    }
+
+    location ~ /\. {
+	   deny all;
+    }
+
+    location ~* /(uploads|files)/.*\.php$ {
+	   deny all;
+    }
+
+    access_log /home/log/nginx/access.log;
+    error_log /home/log/nginx/error.log warn;
+}
+
+
+server {
+    listen 80;
+    server_name file.sora.dev.com;
+
+    location / {
+        root /home/storage;
         access_log off;
         expires max;
     }
@@ -38,7 +93,7 @@ server {
         add_header 'Access-Control-Allow-Origin' '*';
 
         referer_hash_bucket_size 200;
-        valid_referers ~(google|yandex|subscribe|feedburner|bing|webalta|yahoo|mail|poisk|rambler|nigma|ask|qip|ukr|blocked|sparkpost|ledums)\.;
+        valid_referers ~(google|yandex|subscribe|feedburner|bing|webalta|yahoo|mail|poisk|rambler|nigma|ask|qip|ukr|blocked|sparkpost)\.;
 
         set $udd "0";
         if ($http_referer) {
@@ -53,19 +108,6 @@ server {
             set $args ?&h=50&w=50;
         }
 
-        proxy_cache resized;
-        proxy_cache_min_uses 1;
-        proxy_cache_lock on;
-        proxy_cache_valid 200 3d;
-        proxy_cache_valid any 1m;
-        proxy_cache_use_stale error timeout updating;
-
-        proxy_set_body none;
-        proxy_redirect off;
-
-        proxy_pass http://127.0.0.1:9009;
-        proxy_pass_request_headers off;
-
         add_header X-Proxy-Cache $upstream_cache_status;
     }
 }
@@ -73,10 +115,10 @@ server {
 server {
     listen 9009;
 
-    access_log /var/log/nginx/resizer_access.log;
-    error_log /var/log/nginx/resizer_error.log;
+    access_log /home/log/nginx/resizer_access.log;
+    error_log /home/log/nginx/resizer_error.log;
 
-    root /home/ledums/storage;
+    root /home/storage;
 
     allow 127.0.0.1;
     deny all;
@@ -122,56 +164,8 @@ server {
     location @notfound {
         return 404;
     }
-}
 
-server {
-    listen 80;
-    server_name dev.ledums.com steelline.dev.ledums.com torex.dev.ledums.com silent.dev.ledums.com porte-richi.dev.ledums.com leporte.dev.ledums.com;
-    access_log /var/log/nginx/access.log;
-    error_log /var/log/nginx/error.log warn;
 
-    index index.php index.html index.htm;
-
-    root /home/ledums/htdocs/public;
-
-    location / {
-	   try_files $uri $uri/ /index.php$is_args$args;
-    }
-
-    location ~* \.(htm|html)$ {
-        try_files $uri /index.php$is_args$args;
-    }
-
-    location ~* \.(gif|jpg|jpeg|png|bmp|wmv|avi|mpg|mpeg|mp4|js|css|deb|bz2|swf|pdf|ico|txt)$ {
-        access_log off;
-        expires max;
-    }
-
-    location ~ \.php$ {
-    	fastcgi_pass php-fpm-ledums:9000;
-    	include fastcgi.conf;
-    	fastcgi_index index.php;
-    	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-
-    location = /favicon.ico {
-    	log_not_found off;
-    	access_log off;
-    }
-
-    location = /robots.txt {
-    	allow all;
-    	log_not_found off;
-    	access_log off;
-    }
-
-    location ~ /\. {
-	   deny all;
-    }
-
-    location ~* /(uploads|files)/.*\.php$ {
-	   deny all;
-    }
 }
 
 server {
@@ -180,5 +174,5 @@ server {
     index index.html;
     server_name_in_redirect off;
 
-    root  /home/ledums/htdocs/;
+    root  /home/www/;
 }

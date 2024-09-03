@@ -9,12 +9,10 @@ services:
       - "8080:80"
     restart: always
     volumes:
-      #todo:
-      - ./www:/var/www/html
-#      - ./storage:/home/ledums/storage/:delegated
-#      - ./php_conf/profiler:/tmp/profiler:delegated
-#      - ./logs/nginx:/var/log/nginx:delegated
-#      - ./nginx_conf:/etc/nginx/conf.d:cached
+      - ./www:/var/www/
+      - ./storage:/var/storage/
+      - ./logs/nginx:/var/log/nginx:delegated
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - sora-network
 
@@ -26,12 +24,11 @@ services:
     ports:
       - "9000:9000"
     restart: always
+    working_dir: /var/www
     volumes:
-      - ./www:/var/www/html/:rw
-#      - ./storage:/home/ledums/storage/
-#      - ./php_conf/profiler:/tmp/profiler:delegated
-#      - ./logs/php-fpm:/var/log:delegated
-#      - ./php_conf/php.ini:/usr/local/etc/php/php.ini:cached
+      - ./www:/var/www/:rw
+      - ./storage:/var/storage/
+      - ./logs/php-fpm:/var/log:delegated
     extra_hosts:
       - host.docker.internal:host-gateway
     environment:
@@ -46,19 +43,20 @@ services:
 
   sora-mysql:
     container_name: sora-mysql
-    platform: linux/x86_64
     image: mysql:5.7.37
+    restart: always
+    tty: true
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: sora
-      MYSQL_USER: root
+      MYSQL_USER: admin
       MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
       - ./mysql:/var/lib/mysql
       - ./docker/mysql/conf:/etc/mysql/conf.d
-    restart: always
     networks:
       - sora-network
 
@@ -77,9 +75,10 @@ services:
       context: .
       dockerfile: dockerfile.nodejs
     restart: always
+    working_dir: /var/www/frontend
     volumes:
-      - ./www:/var/www/html:cached
-      - ./public:/var/www/html/public:rw,delegated
+      - ./www:/var/www/
+      - ./www/frontend:/var/www/frontend:rw,delegated
     environment:
       WEB_HOST: ${WEB_HOST}
       WEB_PORT: 80
@@ -89,30 +88,30 @@ services:
     networks:
       - sora-network
 
-  sora-apollo:
-    container_name: sora-apollo
-    image: sora-nodejs
-    working_dir: /apollo
-    volumes:
-      - ./apollo:/apollo
-    ports:
-      - "4000:4000"
-    command: [ "npm", "start" ]
-    networks:
-      - sora-network
+#  sora-apollo:
+#    container_name: sora-apollo
+#    image: sora-nodejs
+#    working_dir: /apollo
+#    volumes:
+#      - ./apollo:/apollo
+#    ports:
+#      - "4000:4000"
+#    command: [ "npm", "start" ]
+#    networks:
+#      - sora-network
 
-  sora-opensearch:
-    container_name: sora-opensearch
-    image: opensearchproject/opensearch:2.3.0
-    environment:
-      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
-      DISCOVERY_TYPE: single-node
-      OPENSEARCH_USERNAME: admin
-      OPENSEARCH_PASSWORD: admin
-    ports:
-      - "9200:9200"
-    networks:
-      - sora-network
+#  sora-opensearch:
+#    container_name: sora-opensearch
+#    image: opensearchproject/opensearch:2.3.0
+#    environment:
+#      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+#      DISCOVERY_TYPE: single-node
+#      OPENSEARCH_USERNAME: admin
+#      OPENSEARCH_PASSWORD: admin
+#    ports:
+#      - "9200:9200"
+#    networks:
+#      - sora-network
 
 networks:
   sora-network:

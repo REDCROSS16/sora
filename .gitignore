@@ -2,6 +2,6 @@
 /mysql/
 /logs
 /storage
-/web/frontend/node_modules
-/web/vendor
-/web/var
+/www/frontend/node_modules
+/www/vendor
+/www/var

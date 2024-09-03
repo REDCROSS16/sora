@@ -1,0 +1,19 @@
+{
+  "base": "/build/",
+  "entryPoints": {
+    "app": {
+      "js": [
+        "http://localhost:3000/build/assets/app.js"
+      ]
+    }
+  },
+  "legacy": false,
+  "metadatas": {},
+  "version": [
+    "7.0.4",
+    7,
+    0,
+    4
+  ],
+  "viteServer": "http://localhost:3000"
+}
