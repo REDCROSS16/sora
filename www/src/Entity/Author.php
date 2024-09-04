@@ -9,8 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-#[ORM\Table('author')]
 class Author
 {
     #[ORM\Id]
@@ -22,6 +20,9 @@ class Author
     private string $name;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'authors')]
+    #[ORM\JoinTable(name: 'author_tag')]
+    #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'author_id')]
+    #[ORM\InverseJoinColumn(name: 'tag_id', referencedColumnName: 'tag_id')]
     private Collection $tags;
 
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author', cascade: ['persist'], fetch: 'EAGER', orphanRemoval: true)]
@@ -34,9 +35,9 @@ class Author
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

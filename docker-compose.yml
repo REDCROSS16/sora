@@ -80,7 +80,7 @@ services:
       - ./www:/var/www/
       - ./www/frontend:/var/www/frontend:rw,delegated
     environment:
-      WEB_HOST: ${WEB_HOST}
+      WEB_HOST: sora-nginx
       WEB_PORT: 80
     ports:
       - "3000:3000"

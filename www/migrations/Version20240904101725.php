@@ -43,7 +43,7 @@ final class Version20240904101725 extends AbstractMigration
             $table->addColumn('author_id', 'integer', ['autoincrement' => true, 'notnull' => true, 'unsigned' => true]);
             $table->addColumn('name', 'string', ['notnull' => true, 'length' => 255]);
 
-            $table->setPrimaryKey(['author_id']);
+            $table->setPrimaryKey(['author_id'] , 'author_id');
             $table->addOption('engine', 'InnoDB');
             $table->addOption('comment', 'Table for store Authors');
         }
@@ -107,8 +107,8 @@ final class Version20240904101725 extends AbstractMigration
             $table->addOption('engine', 'InnoDB');
             $table->addOption('comment', 'Table for store links with Authors and Tags');
 
-            $table->addForeignKeyConstraint('author', ['author_id'], ['author_id'], ['onDelete' => 'restrict', 'onUpdate' => 'restrict'], 'FK_AUTHOR_AUTHOR_TAG');
-            $table->addForeignKeyConstraint('tag', ['tag_id'], ['tag_id'], ['onDelete' => 'restrict', 'onUpdate' => 'restrict'], 'FK_TAG_AUTHOR_TAG');
+            $table->addForeignKeyConstraint('author', ['author_id'], ['author_id'], ['onDelete' => 'restrict', 'onUpdate' => 'restrict'], 'FK_AUTHOR_TAG_AUTHOR');
+            $table->addForeignKeyConstraint('tag', ['tag_id'], ['tag_id'], ['onDelete' => 'restrict', 'onUpdate' => 'restrict'], 'FK_AUTHOR_TAG_TAG');
         }
     }
 }
