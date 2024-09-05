@@ -3,7 +3,7 @@
 npm config set "strict-ssl" false -g
 npm install --loglevel verbose
 
-if grep -q "ENV=local" ../.env; then
+if grep -q "ENV=dev" ../.env; then
     echo "START development NODEJS"
     npm run dev
     #npm run dev -- --host

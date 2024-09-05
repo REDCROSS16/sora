@@ -1,9 +1,9 @@
+import './App.css';
 
+function App() {
+    return (
+        <div> Project </div>
+    );
+}
 
-// function App() {
-//     console.log('app js')
-//
-//     return;
-// }
-//
-// module.exports = App;
+export default App;
