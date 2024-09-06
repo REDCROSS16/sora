@@ -14,16 +14,6 @@ export default defineConfig({
         )
         // symfonyPlugin(),
     ],
-    // root: 'frontend/js',
-
-    // build: {
-    //     rollupOptions: {
-    //         input: {
-    //             app: "./assets/app.js"
-    //         },
-    //     }
-    // },
-
     server: {
 
         // proxy: {
