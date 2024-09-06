@@ -1,0 +1,26 @@
+.button {
+    border-radius: 6px;
+    padding: 8px 30px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    font-size: 16px;
+}
+
+.color-red {
+    color: greenyellow;
+}
+
+.button:hover {
+    background: #222096;
+}
+
+/*button:focus,*/
+/*button:focus-visible {*/
+/*    outline: 4px auto -webkit-focus-ring-color;*/
+/*}*/
+
+.accent {
+    background: #5855c4;
+}

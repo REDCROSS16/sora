@@ -1,14 +1,17 @@
-import { defineConfig } from "vite";
-import symfonyPlugin from "vite-plugin-symfony";
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-    root: './',
-    baseUrl: './',
-    base: './',
+    // root: './',
+    // baseUrl: './',
+    // base: './',
 
     plugins: [
-        react(),
+        react(
+        //     {
+        //     jsxRuntime: 'classic'
+        // }
+        )
         // symfonyPlugin(),
     ],
     // root: 'frontend/js',
@@ -31,12 +34,13 @@ export default defineConfig({
         host: true,
         strictPort: false,
         port: 3000,
+        // hmr: true,
         hmr: {
             host: 'localhost',
             protocol: 'ws'
         },
         watch: {
-            usePolling: true,
+            usePolling: true
         }
     },
 
