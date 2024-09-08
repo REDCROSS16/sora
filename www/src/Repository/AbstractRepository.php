@@ -2,12 +2,13 @@
 
 namespace App\Repository;
 
+use App\Repository\Exception\CannotBuildRepositoryException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Driver\PDO\Exception;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Psr\Log\LoggerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -53,6 +54,22 @@ abstract class AbstractRepository extends ServiceEntityRepository
 
         return $useCache ? $query->enableResultCache() : $query->disableResultCache();
 
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    protected function getEntityClassName(): string
+    {
+        $repositoryNameParts = explode('\\', \get_class($this));
+        $repositoryName = end($repositoryNameParts);
+
+        if (!str_contains($repositoryName, 'Repository')) {
+            throw new Exception(' Non-standard repository name given. Repository must be named like "EntityNameRepository"');
+        }
+
+        return 'App\Entity\\' . str_replace('Repository', '', $repositoryName);
     }
 
     /**

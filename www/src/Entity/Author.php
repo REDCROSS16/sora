@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[ORM\Table('author')]
 class Author
 {
     #[ORM\Id]
@@ -17,7 +18,7 @@ class Author
     private ?int $id = null;
 
     #[ORM\Column(name:'name', type: Types::STRING, length: 255, nullable: false)]
-    private string $name;
+    private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'authors')]
     #[ORM\JoinTable(name: 'author_tag')]
@@ -43,9 +44,9 @@ class Author
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

@@ -1,5 +1,6 @@
 body {
     background: #252323;
+    color: #fff;
     display: flex;
     justify-content: center; /* Центрирование по горизонтали */
     align-items: center; /* Центрирование по вертикали */
