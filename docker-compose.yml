@@ -100,18 +100,21 @@ services:
 #    networks:
 #      - sora-network
 
-#  sora-opensearch:
-#    container_name: sora-opensearch
+  sora-opensearch:
+    container_name: sora-opensearch
 #    image: opensearchproject/opensearch:2.3.0
-#    environment:
+    image: elasticsearch:8.15.1
+    environment:
+        - xpack.security.enabled=false
+        - "discovery.type=single-node"
 #      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
 #      DISCOVERY_TYPE: single-node
 #      OPENSEARCH_USERNAME: admin
 #      OPENSEARCH_PASSWORD: admin
-#    ports:
-#      - "9200:9200"
-#    networks:
-#      - sora-network
+    ports:
+      - "9200:9200"
+    networks:
+      - sora-network
 
 networks:
   sora-network:

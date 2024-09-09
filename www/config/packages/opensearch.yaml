@@ -1,0 +1,10 @@
+services:
+  OpenSearch\Client:
+    factory: ['OpenSearch\ClientBuilder', 'create']
+    arguments:
+      -
+        hosts:
+          - 'localhost:9200'
+
+  App\Service\SearchServiceInterface:
+    alias: App\Service\ElasticSearchService # App\Service\OpenSearchService
