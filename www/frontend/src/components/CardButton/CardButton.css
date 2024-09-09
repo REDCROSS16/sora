@@ -6,6 +6,9 @@
     margin: 10px;
     border: none;
     cursor: pointer;
+    display: block;
+    width: 400px;
+    text-align: left;
 }
 
 .card-button:hover {

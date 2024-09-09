@@ -2,39 +2,29 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-    // root: './',
-    // baseUrl: './',
-    // base: './',
+	plugins: [
+		react()
+		// symfonyPlugin(),
+	],
+	server: {
+		https: false,
+		host: true,
+		strictPort: false,
+		port: 3000,
+		hmr: {
+			host: 'localhost',
+			protocol: 'ws'
+		},
+		watch: {
+			usePolling:true
+		}
 
-    plugins: [
-        react(
-        //     {
-        //     jsxRuntime: 'classic'
-        // }
-        )
-        // symfonyPlugin(),
-    ],
-    server: {
+		// proxy: {
+		//     '/': 'http://localhost:8080', // Замените на ваш URL Symfony
+		// }
+	},
 
-        // proxy: {
-        //     '/': 'http://localhost:8080', // Замените на ваш URL Symfony
-        // },
-
-        https: false,
-        host: true,
-        strictPort: false,
-        port: 3000,
-        // hmr: true,
-        hmr: {
-            host: 'localhost',
-            protocol: 'ws'
-        },
-        watch: {
-            usePolling: true
-        }
-    },
-
-    optimizeDeps: {
-        exclude: ['framer-motion']
-    }
+	optimizeDeps: {
+		exclude: ['framer-motion']
+	}
 });
