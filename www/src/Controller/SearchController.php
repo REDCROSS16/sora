@@ -14,10 +14,20 @@ class SearchController extends AbstractController
     {
     }
 
+    #[Route(path:'/search', name:'search', methods: 'GET')]
+    public function search(Request $request): JsonResponse
+    {
+        $params = [...$request->query];
+
+        return new JsonResponse( $this->searchService->search($params));
+    }
+
+
     #[Route('/create-index', methods: 'POST')]
     public function createIndex(): JsonResponse
     {
         $index = 'my_index';
+
         $settings = [
             'settings' => [
                 'number_of_shards' => 1,
@@ -35,55 +45,5 @@ class SearchController extends AbstractController
         $response = $this->searchService->createIndex($index, $settings);
 
         return new JsonResponse($response);
-    }
-
-
-    #[Route(path:'/search', name:'search', methods: 'GET')]
-    public function search(Request $request): JsonResponse
-    {
-        dd($request->query);
-        $searchQuery = [
-            'query' => [
-                'match' => [
-                    'content' => $request->query,
-                ],
-            ],
-        ];
-
-        $results = $this->searchService->search('documents', $searchQuery);
-
-        return new JsonResponse($results);
-    }
-
-    /**
-     * @return void
-     * @phpstan-ignore
-     */
-    private function getExampleOfSearching(): void
-    {
-        // Вы можете использовать bool для комбинирования условий
-        $searchQuery = [
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        ['match' => ['title' => 'Sample']],
-                        ['match' => ['content' => 'document']],
-                    ],
-                ],
-            ],
-        ];
-
-        $searchQuery = [
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        ['match' => ['content' => 'sample']],
-                    ],
-                    'filter' => [
-                        ['range' => ['date' => ['gte' => '2024-01-01']]],
-                    ],
-                ],
-            ],
-        ];
     }
 }

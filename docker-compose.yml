@@ -105,12 +105,19 @@ services:
 #    image: opensearchproject/opensearch:2.3.0
     image: elasticsearch:8.15.1
     environment:
+        - discovery.type=single-node
+        - bootstrap.memory_lock=true
         - xpack.security.enabled=false
-        - "discovery.type=single-node"
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - cluster.name=docker-cluster
 #      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
 #      DISCOVERY_TYPE: single-node
 #      OPENSEARCH_USERNAME: admin
 #      OPENSEARCH_PASSWORD: admin
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     ports:
       - "9200:9200"
     networks:

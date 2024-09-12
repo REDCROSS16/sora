@@ -7,4 +7,4 @@ services:
           - 'localhost:9200'
 
   App\Service\SearchServiceInterface:
-    alias: App\Service\ElasticSearchService # App\Service\OpenSearchService
+    alias: App\Service\ElasticSearch\ElasticSearchService # App\Service\OpenSearchService

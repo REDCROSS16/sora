@@ -6,5 +6,5 @@ interface SearchServiceInterface
 {
     public function createIndex(string $index, array $settings): mixed;
     public function indexDocument(string $index, string $id, array $document): mixed;
-    public function search(string $index, array $query): mixed;
+    public function search(array $params): mixed;
 }

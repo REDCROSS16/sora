@@ -1,0 +1,9 @@
+fos_elastica:
+  clients:
+    default: { url: '%env(ELASTICSEARCH_URL)%' }
+  serializer: ~
+  indexes:
+    good:
+      persistence:
+        driver: orm
+        model: App\Entity\Good
