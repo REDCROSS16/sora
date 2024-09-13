@@ -15,14 +15,12 @@ class AuthorController extends AbstractController
     {
         $author = $em->getRepository(Author::class)->find($id);
 
-
         if (!$author) {
             throw $this->createNotFoundException(
                 'No product found for id '.$id
             );
         }
 
-        dd($author->getTags());
         return $this->render('base.html.twig');
     }
 }

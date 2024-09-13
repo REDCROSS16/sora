@@ -3,7 +3,21 @@ fos_elastica:
     default: { url: '%env(ELASTICSEARCH_URL)%' }
   serializer: ~
   indexes:
+    finder: ~
     good:
       persistence:
         driver: orm
         model: App\Entity\Good
+    book:
+      properties:
+        id:
+          type: integer
+        title:
+          type: text
+        author:
+          type: integer
+      persistence:
+        driver: orm
+        model: App\Entity\Book
+        finder: ~
+        listener: { enabled: false }
