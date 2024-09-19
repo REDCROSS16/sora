@@ -3,6 +3,7 @@ import './index.css';
 import {Component} from 'react';
 import React from 'react';
 import CardButton from './components/CardButton/CardButton.jsx';
+import Button from './components/Button/Button.jsx';
 
 const data = [ {
 	title: 'Подготовка к обновлению курсов23',
@@ -35,6 +36,8 @@ export default class App extends Component {
 						text={data[1].text}
 					/>
 				</CardButton>
+
+				<Button/>
 
 			</>
 		);

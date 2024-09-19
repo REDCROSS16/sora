@@ -2,21 +2,48 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
+#[ApiResource(
+    operations: [
+        new Get(
+            requirements: ['id' => '\d+'],
+        ),
+//        new Post(),
+        new GetCollection()
+    ],
+    normalizationContext: ['groups' => ['author_read']],
+    denormalizationContext: ['groups' => ['author_create', 'author_update']],
+    graphQlOperations: array(
+        new Query(),
+        new QueryCollection(),
+        new Mutation(name: 'create')
+    )
+)]
+#[Post]
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 #[ORM\Table('author')]
 class Author
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[Groups(['author_read', 'author_create', 'author_update'])]
     #[ORM\Column(name: 'author_id', type: Types::INTEGER, nullable: false, options: ['unsigned' => true])]
     private ?int $id = null;
 
+    #[Groups(['author_read', 'author_create', 'author_update'])]
     #[ORM\Column(name:'name', type: Types::STRING, length: 255, nullable: false)]
     private ?string $name = null;
 
@@ -24,10 +51,11 @@ class Author
     #[ORM\JoinTable(name: 'author_tag')]
     #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'author_id')]
     #[ORM\InverseJoinColumn(name: 'tag_id', referencedColumnName: 'tag_id')]
-    private Collection $tags;
+    private ?Collection $tags;
 
+    #[Groups(['author_read'])]
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author', cascade: ['persist'], fetch: 'EAGER', orphanRemoval: true)]
-    private Collection $books;
+    private ?Collection $books;
 
     public function __construct()
     {
