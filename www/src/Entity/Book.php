@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\RangeFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
@@ -20,6 +22,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ApiFilter(RangeFilter::class, properties: ['author.id'])]
 #[ORM\Table('book')]
 class Book
 {
@@ -34,6 +37,7 @@ class Book
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'books')]
     #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'author_id', nullable: false)]
+    #[Groups(['author_read', 'book_read', 'book_write'])]
     private Author $author;
 
     /**

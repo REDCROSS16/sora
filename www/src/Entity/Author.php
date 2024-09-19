@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
@@ -9,6 +12,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
+use App\ApiPlatform\JsonFilter;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -34,12 +38,14 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 #[Post]
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[ApiFilter(RangeFilter::class, properties: ['name'])]
+#[ApiFilter(JsonFilter::class, properties: ['config.type' => ['type'=> 'string', 'strategy' => 'exact']])]
 #[ORM\Table('author')]
 class Author
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[Groups(['author_read', 'author_create', 'author_update'])]
+    #[Groups(['author_read', 'author_create', 'author_update', 'book_read'])]
     #[ORM\Column(name: 'author_id', type: Types::INTEGER, nullable: false, options: ['unsigned' => true])]
     private ?int $id = null;
 
