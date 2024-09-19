@@ -88,17 +88,19 @@ services:
     networks:
       - sora-network
 
-#  sora-apollo:
-#    container_name: sora-apollo
-#    image: sora-nodejs
-#    working_dir: /apollo
-#    volumes:
-#      - ./apollo:/apollo
-#    ports:
-#      - "4000:4000"
-#    command: [ "npm", "start" ]
-#    networks:
-#      - sora-network
+  sora-apollo:
+    container_name: sora-apollo
+    image: node:22.7.0-alpine3.20
+    working_dir: /usr/src/app
+    volumes:
+      - ./www/apollo:/usr/src/app
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+    command: [ "npm", "start" ]
+    networks:
+      - sora-network
 
   sora-opensearch:
     container_name: sora-opensearch

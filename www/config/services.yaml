@@ -30,3 +30,8 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
+
+    App\Controller\Api\FindGoods\FindGoodsManager:
+        arguments:
+            $finder: '@fos_elastica.finder.good' #good название index в эластика
+

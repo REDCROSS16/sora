@@ -15,7 +15,6 @@ const data = [ {
 }
 ];
 
-
 export default class App extends Component {
 	render() {
 		return (
@@ -36,6 +35,10 @@ export default class App extends Component {
 					/>
 				</CardButton>
 
+				<div className='App'>
+					<AddTodo/>
+					<TodoList/>
+				</div>
 			</>
 		);
 	}

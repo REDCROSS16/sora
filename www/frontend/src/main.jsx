@@ -3,13 +3,16 @@ import React from 'react';
 import '../scss/app.scss';
 import App from './App.jsx';
 import {ApolloProvider} from '@apollo/client';
-import client from '../apollo/client.js';
+import { ChakraProvider } from '@chakra-ui/react';
+import client from './apollo/client.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-
-	<ApolloProvider client={client}>
-		<App>
-		</App>
-	</ApolloProvider>
-
+	<React.StrictMode>
+		<ChakraProvider>
+			<ApolloProvider client={client}>
+				<App>
+				</App>
+			</ApolloProvider>
+		</ChakraProvider>
+	</React.StrictMode>
 );
