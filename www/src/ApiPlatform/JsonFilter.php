@@ -1,8 +1,8 @@
 <?php
 namespace App\ApiPlatform;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
@@ -13,6 +13,10 @@ use Doctrine\DBAL\Types\Types as DBALType;
  */
 class JsonFilter extends AbstractJsonFilter
 {
+    public function __construct(private array $properties = [])
+    {
+    }
+
     public const TYPE_STRING = 'string';
     public const TYPE_INT = 'int';
     public const TYPE_FLOAT = 'float';
@@ -545,5 +549,9 @@ class JsonFilter extends AbstractJsonFilter
                 $operator,
                 $valueParameter,
             );
+    }
+
+    private function getProperties()
+    {
     }
 }

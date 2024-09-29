@@ -6,3 +6,9 @@ body {
     align-items: center; /* Центрирование по вертикали */
     height: 100vh;
 }
+
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+}

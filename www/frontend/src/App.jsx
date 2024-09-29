@@ -1,45 +1,40 @@
-import JournalItem from './components/JournalItem/JournalItem.jsx';
 import './index.css';
-import {Component} from 'react';
-import React from 'react';
-import CardButton from './components/CardButton/CardButton.jsx';
-import Button from './components/Button/Button.jsx';
+import './app.css';
+import React, {useState} from 'react';
+import LeftPanel from './layouts/LeftPanel/LeftPanel.jsx';
+import Body from './layouts/Body/Body.jsx';
+import Header from './components/Header/Header.jsx';
+import JournalList from './components/JournalList/JournalList.jsx';
+import JournalAddButton from './components/JournalAddButton/JournalAddButton.jsx';
+import JournalForm from './components/JournalForm/JournalForm.jsx';
 
-const data = [ {
-	title: 'Подготовка к обновлению курсов23',
-	date: new Date(),
-	text: 'Какойто текст для пропсов'
-}, {
-	title: 'Подготовка к обновлению курсов123',
-	date: new Date(),
-	text: 'Какойто текст для пропсов2'
-}
-];
+const INTIAL_DATA = [];
 
+export default function App () {
 
-export default class App extends Component {
-	render() {
-		return (
-			<>
-				<CardButton>
-					<JournalItem
-						title={data[0].title}
-						date={data[0].date}
-						text={data[0].text}
-					/>
-				</CardButton>
+	const [items, setItems] = useState(INTIAL_DATA);
 
-				<CardButton>
-					<JournalItem
-						title={data[1].title}
-						date={data[1].date}
-						text={data[1].text}
-					/>
-				</CardButton>
+	const addItem = (item) => {
+		setItems(prevItems => [...prevItems, {
+			text: item.text,
+			title: item.title,
+			tag: item.tag,
+			date: new Date(item.date),
+			id: prevItems.length > 0 ? Math.max(...prevItems.map(i => i.id)) + 1 : 1
+		}]);
+	};
 
-				<Button/>
+	return (
+		<div className='app'>
+			<LeftPanel>
+				<Header/>
+				<JournalAddButton/>
+				<JournalList items={items} />
+			</LeftPanel>
+			<Body>
+				<JournalForm onSubmit={addItem}/>
+			</Body>
 
-			</>
-		);
-	}
+		</div>
+	);
 }

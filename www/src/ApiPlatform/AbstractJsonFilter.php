@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\ApiPlatform;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Api\FilterInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
 
-abstract class AbstractJsonFilter extends AbstractContextAwareFilter
+abstract class AbstractJsonFilter implements FilterInterface
 {
     protected const DOCTRINE_JSON_TYPES = [
         Types::JSON => true,

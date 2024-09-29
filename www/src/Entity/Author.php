@@ -39,7 +39,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[Post]
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 #[ApiFilter(RangeFilter::class, properties: ['name'])]
-#[ApiFilter(JsonFilter::class, properties: ['config.type' => ['type'=> 'string', 'strategy' => 'exact']])]
 #[ORM\Table('author')]
 class Author
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Controller\Author;
+namespace App\Controller\Api\Author;
 
 use App\Entity\Author;
 use Doctrine\ORM\EntityManagerInterface;
