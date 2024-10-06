@@ -1,16 +1,32 @@
 import styles from './JournalForm.module.css';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Button from '../Button/Button.jsx';
+
+const INITIAL_STATE = {
+	title: true,
+	text: true,
+	date: true,
+	tag: true
+};
 
 function JournalForm({ onSubmit }) {
 
 	// состояние валидации
-	const [formValidState, setFormValidState] = useState({
-		title: true,
-		text: true,
-		date: true,
-		tag: true
-	});
+	const [formValidState, setFormValidState] = useState(INITIAL_STATE);
+
+	// через 2 секунды снимается подсветка с формы
+	useEffect(() => {
+		let timerId;
+		if (!formValidState.date || !formValidState.text || !formValidState.title) {
+			timerId = setTimeout(() => {
+				setFormValidState(INITIAL_STATE);
+			}, 2000);
+		}
+
+		return () => {
+			clearTimeout(timerId);
+		};
+	}, [formValidState]);
 
 
 	const addJournalItem = (e) => {
