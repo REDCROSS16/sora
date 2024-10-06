@@ -22,12 +22,9 @@ export default function App () {
 
 	const [items, setItems] = useState([]);
 
-
 	// читаем из локалсторадж
 	useEffect(() => {
 		const data = JSON.parse(localStorage.getItem('data'));
-
-		console.log(data);
 
 		if (data) {
 			setItems(data.map((item) => ({
