@@ -1,5 +1,5 @@
 import styles from './JournalForm.module.css';
-import {useEffect, useReducer, useState} from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import Button from '../Button/Button.jsx';
 import {ACTIONS, formReducer, INITIAL_STATE} from './JournalForm.state.js';
 
@@ -7,11 +7,33 @@ function JournalForm({ onSubmit }) {
 
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
 	const { isValid, isFormReadyToSubmit, values} = formState;
+	const titleRef = useRef();
+	const dateRef = useRef();
+	const textRef = useRef();
+	const tagRef = useRef();
+
+	const focusError = (isValid) => {
+		switch (true) {
+		case !isValid.title:
+			titleRef.current.focus();
+			break;
+		case !isValid.date:
+			dateRef.current.focus();
+			break;
+		case !isValid.tag:
+			tagRef.current.focus();
+			break;
+		case !isValid.text:
+			textRef.current.focus();
+			break;
+		}
+	};
 
 	// через 2 секунды снимается подсветка с формы
 	useEffect(() => {
 		let timerId;
 		if (!isValid.date || !isValid.text || !isValid.title) {
+			focusError(isValid);
 			timerId = setTimeout(() => {
 				dispatchForm({type: ACTIONS.RESET_VALIDITY});
 			}, 2000);
@@ -22,12 +44,13 @@ function JournalForm({ onSubmit }) {
 		};
 	}, [isValid]);
 
+	// проверка валидности
 	useEffect(() => {
 		if (isFormReadyToSubmit) {
 			onSubmit(values);
 			dispatchForm({type: ACTIONS.CLEAR});
 		}
-	}, [isFormReadyToSubmit]);
+	}, [isFormReadyToSubmit, values, onSubmit]);
 
 	const onchange = (e) => {
 		dispatchForm({
@@ -45,7 +68,7 @@ function JournalForm({ onSubmit }) {
 	return (
 		<form className={styles['journal-form']} onSubmit={addJournalItem}>
 			<div>
-				<input type="text" name="title" onChange={onchange} value={values.title}
+				<input type="text" ref={titleRef} name="title" onChange={onchange} value={values.title}
 				   className={`${styles['input-title']} ${isValid.title ? '' : styles.invalid}`}/>
 			</div>
 			<div className={styles['form-row']}>
@@ -53,22 +76,22 @@ function JournalForm({ onSubmit }) {
 					<img src="/calendar.svg" alt="иконка"/>
 					<span>Дата</span>
 				</label>
-				<input type="date" name="date" id="date" onChange={onchange} value={values.date}
+				<input type="date" ref={dateRef} name="date" id="date" onChange={onchange} value={values.date}
 				   className={`${styles['input']} ${isValid.date ? '' : styles.invalid}`}/>
 			</div>
 
 			<div className={styles['form-row']}>
-				<label htmlFor="tag" className={styles['form-label']}>
+				<label htmlFor="tag"  className={styles['form-label']}>
 					<img src="/tag.svg" alt="иконка"/>
 					<span>Метки</span>
 				</label>
-				<input type="text" name="tag" id="tag" onChange={onchange} value={values.tag}
+				<input type="text" ref={tagRef} name="tag" id="tag" onChange={onchange} value={values.tag}
 					   className={`${styles['input']} ${isValid.tag ? '' : styles.invalid}`}
 				/>
 			</div>
 
 
-			<textarea name="text" id="" cols="30" rows="10" onChange={onchange} value={values.text}
+			<textarea ref={textRef} name="text" id="" cols="30" rows="10" onChange={onchange} value={values.text}
 					  className={`${styles['input']} ${isValid.text ? '' : styles.invalid}`}>
 			</textarea>
 			<Button text="Save" />

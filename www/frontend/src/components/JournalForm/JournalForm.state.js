@@ -26,7 +26,7 @@ export function formReducer(state, action) {
 	case ACTIONS.SET_VALUE:
 		return {...state, values: {...state.values, ...action.payload }};
 	case ACTIONS.CLEAR:
-		return {...state, values: INITIAL_STATE.values};
+		return {...state, values: INITIAL_STATE.values, isFormReadyToSubmit: false};
 	case ACTIONS.RESET_VALIDITY:
 		return {...state, isValid: INITIAL_STATE.isValid};
 	case ACTIONS.SUBMIT: {
