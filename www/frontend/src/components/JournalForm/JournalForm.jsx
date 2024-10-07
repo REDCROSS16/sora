@@ -2,6 +2,7 @@ import styles from './JournalForm.module.css';
 import { useEffect, useReducer, useRef } from 'react';
 import Button from '../Button/Button.jsx';
 import {ACTIONS, formReducer, INITIAL_STATE} from './JournalForm.state.js';
+import Input from '../Input/Input.jsx';
 
 function JournalForm({ onSubmit }) {
 
@@ -68,16 +69,16 @@ function JournalForm({ onSubmit }) {
 	return (
 		<form className={styles['journal-form']} onSubmit={addJournalItem}>
 			<div>
-				<input type="text" ref={titleRef} name="title" onChange={onchange} value={values.title}
-				   className={`${styles['input-title']} ${isValid.title ? '' : styles.invalid}`}/>
+				<Input isValid={isValid.title} type="text" ref={titleRef} name="title" onChange={onchange} value={values.title}
+					   className={`${styles['input-title']} ${isValid.title ? '' : styles.invalid}`} />
 			</div>
 			<div className={styles['form-row']}>
 				<label htmlFor="date" className={styles['form-label']}>
 					<img src="/calendar.svg" alt="иконка"/>
 					<span>Дата</span>
 				</label>
-				<input type="date" ref={dateRef} name="date" id="date" onChange={onchange} value={values.date}
-				   className={`${styles['input']} ${isValid.date ? '' : styles.invalid}`}/>
+				<Input type="date" ref={dateRef} name="date" id="date" onChange={onchange} value={values.date}
+					   className={`${styles['input']} ${isValid.date ? '' : styles.invalid}`} />
 			</div>
 
 			<div className={styles['form-row']}>
@@ -85,9 +86,8 @@ function JournalForm({ onSubmit }) {
 					<img src="/tag.svg" alt="иконка"/>
 					<span>Метки</span>
 				</label>
-				<input type="text" ref={tagRef} name="tag" id="tag" onChange={onchange} value={values.tag}
-					   className={`${styles['input']} ${isValid.tag ? '' : styles.invalid}`}
-				/>
+				<Input type="text" ref={tagRef} name="tag" id="tag" onChange={onchange} value={values.tag}
+					   className={`${styles['input']} ${isValid.tag ? '' : styles.invalid}`} />
 			</div>
 
 
