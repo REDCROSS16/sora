@@ -8,6 +8,7 @@ import JournalAddButton from './components/JournalAddButton/JournalAddButton.jsx
 import JournalForm from './components/JournalForm/JournalForm.jsx';
 import {useLocalStorage} from './hooks/useLocalStorage.js';
 import {UserContext} from './context/user.context.js';
+import {useState} from 'react';
 
 const INTIAL_DATA = [
 	{
@@ -32,6 +33,7 @@ function mapItems(items) {
 
 export default function App () {
 	const [items, setItems] = useLocalStorage('data');
+	const [userId, setUserId] = useState(1);
 
 	console.log(items);
 	const addItem = (item) => {
@@ -45,7 +47,7 @@ export default function App () {
 	};
 
 	return (
-		<UserContext.Provider value={ {userId: 50 } }>
+		<UserContext.Provider value={{ userId, setUserId }}>
 			<div className='app'>
 				<LeftPanel>
 					<Header/>
