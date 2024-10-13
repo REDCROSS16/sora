@@ -1,6 +1,5 @@
 import './index.css';
 import './app.css';
-import React, {useState, useEffect} from 'react';
 import LeftPanel from './layouts/LeftPanel/LeftPanel.jsx';
 import Body from './layouts/Body/Body.jsx';
 import Header from './components/Header/Header.jsx';
@@ -8,6 +7,7 @@ import JournalList from './components/JournalList/JournalList.jsx';
 import JournalAddButton from './components/JournalAddButton/JournalAddButton.jsx';
 import JournalForm from './components/JournalForm/JournalForm.jsx';
 import {useLocalStorage} from './hooks/useLocalStorage.js';
+import {UserContext} from './context/user.context.js';
 
 const INTIAL_DATA = [
 	{
@@ -45,16 +45,18 @@ export default function App () {
 	};
 
 	return (
-		<div className='app'>
-			<LeftPanel>
-				<Header/>
-				<JournalAddButton/>
-				<JournalList items={mapItems(items)} />
-			</LeftPanel>
-			<Body>
-				<JournalForm onSubmit={addItem}/>
-			</Body>
+		<UserContext.Provider value={ {userId: 50 } }>
+			<div className='app'>
+				<LeftPanel>
+					<Header/>
+					<JournalAddButton/>
+					<JournalList items={mapItems(items)}/>
+				</LeftPanel>
+				<Body>
+					<JournalForm onSubmit={addItem}/>
+				</Body>
+			</div>
+		</UserContext.Provider>
 
-		</div>
 	);
 }

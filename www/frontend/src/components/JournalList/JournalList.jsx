@@ -12,7 +12,7 @@ function JournalList({items}) {
 	return (
 		<div className='journal-list'>
 			{ items.length === 0 && <p>Записей нет</p>}
-			{ items.length > 0 && items.sort(sortItems).map(el => (
+			{ items.length > 0 && items.slice(0, 3).sort(sortItems).map(el => (
 				<CardButton key={el.id}>
 					<JournalItem
 						title={el.title}
