@@ -3,7 +3,7 @@ import {useContext, useEffect, useReducer, useRef} from 'react';
 import Button from '../Button/Button.jsx';
 import {ACTIONS, formReducer, INITIAL_STATE} from './JournalForm.state.js';
 import Input from '../Input/Input.jsx';
-import {UserContext} from '../../context/user.context.js';
+import {UserContext} from '../../context/user.context.jsx';
 
 function JournalForm({ onSubmit }) {
 
@@ -54,6 +54,10 @@ function JournalForm({ onSubmit }) {
 			dispatchForm({type: ACTIONS.CLEAR});
 		}
 	}, [isFormReadyToSubmit, values, onSubmit]);
+
+	useEffect(() => {
+		dispatchForm({type: ACTIONS.SET_VALUE, payload: {userId}});
+	}, [userId]);
 
 	const onchange = (e) => {
 		dispatchForm({

@@ -1,9 +1,12 @@
 import './JournalList.css';
 import CardButton from '../CardButton/CardButton.jsx';
 import JournalItem from '../JournalItem/JournalItem.jsx';
-import React from 'react';
+import React, {useContext} from 'react';
+import {UserContext} from '../../context/user.context.jsx';
 
 function JournalList({items}) {
+
+	const {userId} = useContext(UserContext);
 
 	const sortItems = (a, b) => {
 		return (a.date > b.date) ? 1 : -1;
@@ -12,7 +15,7 @@ function JournalList({items}) {
 	return (
 		<div className='journal-list'>
 			{ items.length === 0 && <p>Записей нет</p>}
-			{ items.length > 0 && items.slice(0, 3).sort(sortItems).map(el => (
+			{ items.length > 0 && items.filter(el => el.userId === userId).sort(sortItems).map(el => (
 				<CardButton key={el.id}>
 					<JournalItem
 						title={el.title}
