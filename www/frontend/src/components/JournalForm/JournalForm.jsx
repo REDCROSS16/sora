@@ -5,7 +5,7 @@ import {ACTIONS, formReducer, INITIAL_STATE} from './JournalForm.state.js';
 import Input from '../Input/Input.jsx';
 import {UserContext} from '../../context/user.context.jsx';
 
-function JournalForm({ onSubmit }) {
+function JournalForm({ onSubmit, data }) {
 
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
 	const { isValid, isFormReadyToSubmit, values} = formState;
@@ -15,6 +15,7 @@ function JournalForm({ onSubmit }) {
 	const textRef = useRef();
 	const tagRef = useRef();
 
+	// перемещение к рефам в случае ошибки
 	const focusError = (isValid) => {
 		switch (true) {
 		case !isValid.title:
@@ -32,7 +33,7 @@ function JournalForm({ onSubmit }) {
 		}
 	};
 
-	// через 2 секунды снимается подсветка с формы
+	// устанавливаем подсветку в красный и через 2 секунды снимается подсветка с формы
 	useEffect(() => {
 		let timerId;
 		if (!isValid.date || !isValid.text || !isValid.title) {
@@ -52,13 +53,22 @@ function JournalForm({ onSubmit }) {
 		if (isFormReadyToSubmit) {
 			onSubmit(values);
 			dispatchForm({type: ACTIONS.CLEAR});
+			dispatchForm({type: ACTIONS.SET_VALUE, payload: {userId}});
 		}
-	}, [isFormReadyToSubmit, values, onSubmit]);
+	}, [isFormReadyToSubmit, values, onSubmit, userId]);
 
+	// установка пользоватя при смене userId
 	useEffect(() => {
+		console.log('user changed');
 		dispatchForm({type: ACTIONS.SET_VALUE, payload: {userId}});
 	}, [userId]);
 
+	// установка пользователя после клика
+	useEffect(() => {
+		dispatchForm({type: ACTIONS.SET_VALUE, payload: {...data}});
+	}, [data]);
+
+	// обработка изменения полей формы
 	const onchange = (e) => {
 		dispatchForm({
 			type: ACTIONS.SET_VALUE,
@@ -66,7 +76,7 @@ function JournalForm({ onSubmit }) {
 		});
 	};
 
-
+	// добавить элемент в форму
 	const addJournalItem = (e) => {
 		e.preventDefault();
 		dispatchForm({type: ACTIONS.SUBMIT});
@@ -85,7 +95,8 @@ function JournalForm({ onSubmit }) {
 					<img src="/calendar.svg" alt="иконка"/>
 					<span>Дата</span>
 				</label>
-				<Input type="date" ref={dateRef} name="date" id="date" onChange={onchange} value={values.date}
+				<Input type="date" ref={dateRef} name="date" id="date" onChange={onchange}
+					   value={values.date ? new Date(values.date).toISOString().slice(0,10) : ''}
 					   className={`${styles['input']} ${isValid.date ? '' : styles.invalid}`}/>
 			</div>
 
