@@ -16,3 +16,10 @@ API Platform. Разобраться в процессе нормализаци�
 ### Apollo JS
 
 Appolo Client/Server (js)"
+
+
+
+### TypeScript
+Установка  
+```npm init @eslint/config@latest```  
+```npm init @eslint/config@latest```
