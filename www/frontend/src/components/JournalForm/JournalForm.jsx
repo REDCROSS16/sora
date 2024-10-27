@@ -5,7 +5,7 @@ import {ACTIONS, formReducer, INITIAL_STATE} from './JournalForm.state.js';
 import Input from '../Input/Input.jsx';
 import {UserContext} from '../../context/user.context.jsx';
 
-function JournalForm({ onSubmit, data }) {
+function JournalForm({ onSubmit, data, onDelete }) {
 
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
 	const { isValid, isFormReadyToSubmit, values} = formState;
@@ -57,14 +57,14 @@ function JournalForm({ onSubmit, data }) {
 		}
 	}, [isFormReadyToSubmit, values, onSubmit, userId]);
 
-	// установка пользоватя при смене userId
-	useEffect(() => {
-		console.log('user changed');
-		dispatchForm({type: ACTIONS.SET_VALUE, payload: {userId}});
-	}, [userId]);
-
 	// установка пользователя после клика
 	useEffect(() => {
+		if (!data) {
+			console.log('here!');
+			dispatchForm({type: ACTIONS.CLEAR});
+			dispatchForm({type: ACTIONS.SET_VALUE, payload: {userId: userId}});
+		}
+
 		dispatchForm({type: ACTIONS.SET_VALUE, payload: {...data}});
 	}, [data]);
 
@@ -82,13 +82,22 @@ function JournalForm({ onSubmit, data }) {
 		dispatchForm({type: ACTIONS.SUBMIT});
 	};
 
+	const deleteJournalItem = () => {
+		onDelete(data.id);
+		console.log('item delete');
+		dispatchForm({type: ACTIONS.CLEAR});
+		dispatchForm({type: ACTIONS.SET_VALUE, payload: {userId: userId}});
+	};
+
 	return (
 		<form className={styles['journal-form']} onSubmit={addJournalItem}>
-			<div>{userId}</div>
-			<div>
+			<div>User ID : {userId}</div>
+			<div className={styles['form-row']}>
 				<Input isValid={isValid.title} type="text" ref={titleRef} name="title" onChange={onchange}
 					   value={values.title}
 					   className={`${styles['input-title']} ${isValid.title ? '' : styles.invalid}`}/>
+				{data?.id && <button className={styles['delete']} type='button' onClick={deleteJournalItem}> - </button>}
+
 			</div>
 			<div className={styles['form-row']}>
 				<label htmlFor="date" className={styles['form-label']}>

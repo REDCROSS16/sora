@@ -52,3 +52,14 @@
     border: 1px solid #fd8d8d;
     background: rgb(54, 14, 14);
 }
+
+.delete {
+    border-color: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+}
+
+.delete:hover {
+    background: #3CAAB5;
+}

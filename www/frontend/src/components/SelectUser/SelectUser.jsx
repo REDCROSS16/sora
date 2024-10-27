@@ -1,4 +1,4 @@
-import './SelectUser.css';
+import styles from './SelectUser.module.css';
 import {useContext} from 'react';
 import {UserContext} from '../../context/user.context.jsx';
 
@@ -11,7 +11,7 @@ export const SelectUser = () => {
 	};
 
 	return (
-		<select name="user" id="id" onChange={changeUser} value={userId}>
+		<select className={styles['select']} name="user" id="id" onChange={changeUser} value={userId}>
 			<option value="1"> Anton</option>
 			<option value="2"> Vasya</option>
 		</select>
