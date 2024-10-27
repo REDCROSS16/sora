@@ -1,14 +1,9 @@
-body {
-    background: #252323;
-    color: #fff;
-    display: flex;
-    justify-content: center; /* Центрирование по горизонтали */
-    align-items: center; /* Центрирование по вертикали */
-    height: 100vh;
-}
+:root {
 
-.App {
-    margin: 0 auto;
-    max-width: 800px;
-    padding: 0 20px;
+    --primary-color: #FE724C;
+    --primary-hover-color: #98381f;
+    --text-secondaty-color: #5B5B5B;
+    --white-color: #FFFFFF;
+    --text-color: #000000;
+    --serparator-color: #D4D6E0;
 }

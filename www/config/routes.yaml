@@ -3,3 +3,18 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+author_controllers:
+    resource: ../src/Controller/Api/Author
+    type: attribute
+    prefix: /api/authors
+    name_prefix: authors_
+
+index:
+    path: /
+    controller: App\Controller\IndexController::index
+
+# api/config/routes.yaml
+api_graphql_entrypoint:
+    path: /api/graphql
+    controller: api_platform.graphql.action.entrypoint

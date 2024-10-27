@@ -13,7 +13,7 @@
         </script>
 
         {% if app.environment == 'dev' %}
-            <script type="module" src="http://localhost:3000/src/main.jsx"></script>
+            <script type="module" src="http://localhost:3000/src/main.tsx"></script>
         {% else %}
             <script type="module" src="{{ asset('build/main.js') }}"></script>
         {% endif %}

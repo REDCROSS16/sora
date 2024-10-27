@@ -20,6 +20,7 @@
         "pentatrion/vite-bundle": "^7.0",
         "phpdocumentor/reflection-docblock": "^5.4",
         "phpstan/phpdoc-parser": "^1.30",
+        "scienta/doctrine-json-functions": "^6.1",
         "symfony/asset": "7.1.*",
         "symfony/console": "7.1.*",
         "symfony/debug-bundle": "7.1.*",
@@ -35,7 +36,8 @@
         "symfony/serializer": "7.1.*",
         "symfony/twig-bundle": "7.1.*",
         "symfony/validator": "7.1.*",
-        "symfony/yaml": "7.1.*"
+        "symfony/yaml": "7.1.*",
+        "webonyx/graphql-php": "^15.14"
     },
     "config": {
         "allow-plugins": {
@@ -87,7 +89,13 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^8.2",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
-        "symfony/maker-bundle": "^1.61"
+        "justinrainbow/json-schema": "^5.3",
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "7.1.*",
+        "symfony/css-selector": "7.1.*",
+        "symfony/maker-bundle": "^1.61",
+        "symfony/phpunit-bridge": "^7.1"
     }
 }

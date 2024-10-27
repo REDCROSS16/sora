@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Api\Author;
 
 use App\Entity\Author;
 use Doctrine\ORM\EntityManagerInterface;
@@ -8,10 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AuthorController extends AbstractController
+#[Route('/{id}', name: 'author', methods: 'GET')]
+class GetAuthorAction extends AbstractController
 {
-    #[Route('/author/{id}', name: 'author', methods: 'GET|POST')]
-    public function author(EntityManagerInterface $em, int $id): Response
+    public function __invoke(EntityManagerInterface $em, int $id): Response
     {
         $author = $em->getRepository(Author::class)->find($id);
 

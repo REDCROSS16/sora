@@ -1,0 +1,23 @@
+.input {
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border-bottom: 1px solid #323233;
+    color: #3CAAB5;
+    width: 100%;
+    outline: #00bb00;
+}
+
+.input-title {
+    background: none;
+    color: #3CAAB5;
+    font-size: 32px;
+}
+
+.input:focus {
+    box-shadow: 0 0 5px rgb(227, 224, 65);
+    border: 1px solid rgb(174, 187, 86);
+}

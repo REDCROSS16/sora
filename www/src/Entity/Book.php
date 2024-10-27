@@ -2,12 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\RangeFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Repository\BookRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
+#[ApiResource(
+    operations: [
+        new GET(),
+        new Post()
+    ],
+    normalizationContext: ['groups' => ['book_read']],
+    denormalizationContext: ['groups' => ['book_create', 'book_update']],
+)]
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ApiFilter(RangeFilter::class, properties: ['author.id'])]
 #[ORM\Table('book')]
 class Book
 {
@@ -17,10 +32,12 @@ class Book
     private ?int $id = null;
 
     #[ORM\Column(name: 'title', type: Types::STRING, length: 255)]
+    #[Groups(['author_read', 'book_read', 'book_write'])]
     private string $title;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'books')]
     #[ORM\JoinColumn(name: 'author_id', referencedColumnName: 'author_id', nullable: false)]
+    #[Groups(['author_read', 'book_read', 'book_write'])]
     private Author $author;
 
     /**
