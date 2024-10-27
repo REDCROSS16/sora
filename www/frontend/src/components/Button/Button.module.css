@@ -23,7 +23,7 @@
 }
 
 .big {
-    text-transform: capitalize;
+    text-transform: uppercase;
     font-size: 16px;
     padding: 20px 60px;
 }

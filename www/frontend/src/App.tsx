@@ -1,5 +1,6 @@
 import Button from './components/Button/Button.tsx';
 import React, {useEffect, useState, MouseEvent} from 'react';
+import {Input} from './components/Input/Input.tsx';
 
 function App() {
 
@@ -10,16 +11,16 @@ function App() {
 	}, []);
 
 	const addCounter = (e: MouseEvent) => {
-		setCounter('asd');  
-
-		console.log(e);
+		console.log('hello');
 	};
 
 	return (
 		<>
-			<Button appearance='asda' onClick={addCounter}>
+			<Button appearance='small' onClick={addCounter}>
                 hello
 			</Button>
+			<Button appearance='big' children={'test text'}/>
+			<Input placeholder='Email'/>
 		</>
 	);
 }
